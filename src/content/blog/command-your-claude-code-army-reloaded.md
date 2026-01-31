@@ -15,7 +15,6 @@ I tried the solution from my [previous post](/posts/2025/commanding-your-claude-
 ## VibeTunnel Terminal Title Management
 
 Here's the complete section to add to your `~/.claude/CLAUDE.md` file:
-
 ```
 ## VibeTunnel Terminal Title Management
 
