@@ -123,3 +123,332 @@
 - https://codexbar.app/ — Project link used in the closing “too much fun” note.
 - https://x.com/steipete/status/2005393881395835045 — Tweet linked as another “building things” reference.
 - https://x.com/steipete — Twitter profile link in the closing call to follow.
+
+### The Signature Flicker (2025-12-18)
+
+**Summary:** A deep dive into terminal UI flicker in AI coding agents, why alt‑screen TUIs feel worse for “terminal‑native” workflows, and why Claude Code’s new renderer is a better direction despite the complexity.
+
+- Anthropic fixed Claude Code’s infamous flicker in version 2.0.72, which the author finds surprising enough to call it out in the tl;dr.
+- The signature flicker was widely noticed; it’s not exclusive to Claude Code—many TUIs (including Cursor and Ink‑based apps) suffer similarly.
+- Terminal flicker is hard to solve; Claude Code uses React under the hood, which complicates incremental rendering.
+- Terminals weren’t designed for rich interactivity; ANSI escape codes can redraw in place but often cause flicker.
+- Two core approaches exist: alt‑screen mode (full viewport control) or differential rendering that preserves scrollback.
+- Both approaches have tradeoffs; he links to a thorough explanation by Mario Zechner.
+- He has hands‑on experience with differential rendering, having ported pi‑tui to Swift as TauTUI (mostly via Codex).
+- For coding agents that mostly emit text, careful incremental rendering (without alt‑screen) is the better terminal‑citizen approach.
+- Ink originally couldn’t do the fine‑grained updates required for a long‑running UI.
+- Ink has improved, but Anthropic still rewrote the renderer for tighter control while keeping React as the component model.
+- A quote from Anthropic emphasizes their desire for a native terminal feel and a high bar for alt‑screen use.
+- The current landscape shows most agents moving to alt‑screen TUIs after fighting flicker, but the user experience is often worse.
+- The author’s main gripe with alt‑screen: it breaks native terminal features like selection, scrolling, and search.
+- These could be rebuilt in a TUI, but they don’t feel like real terminal behavior.
+- Amp moved to its own renderer and alt‑screen; it avoids flicker but loses native selection and has limited search behavior.
+- Gemini briefly switched to an alt‑mode TUI, users hated it, and Google rolled it back quickly.
+- The Gemini alt‑mode required a selection mode (CTRL‑S) to copy text, which felt worse.
+- OpenCode’s opentui is impressive technically (TypeScript + Zig) and can render SolidJS/React.
+- OpenCode’s TUI doesn’t work in macOS Terminal below macOS 26 or in GNOME Terminal.
+- Usability issues in OpenCode include awkward auto‑scroll, no scrollbar, and broken right‑click paste into input.
+- By contrast, Codex stays in the primary screen buffer and behaves like a terminal.
+- Codex still has flaws (overwrites lines), but the terminal‑native behavior is what matters most.
+- OpenAI’s move toward alt‑screen for Codex feels like a regression; he hopes they reverse course.
+- Mario Zechner’s pi is highlighted as the gold standard for differential rendering and inline images.
+- Claude Code and pi show you can eliminate flicker without sacrificing terminal muscle memory.
+- Alt‑screen is fine for dashboards, but coding agents should preserve native selection, scrollback, and search.
+- The conclusion: in 2025, we should have smooth rendering without giving up terminal superpowers.
+- A footnote explains React is flexible enough to power non‑browser renderers like Ink.
+
+#### Links (external, unique)
+
+- https://www.reddit.com/r/ClaudeAI/comments/1lxs53r/what_is_this_madness/ — Reddit thread referenced as the popular “flicker” complaint.
+- https://github.com/vadimdemedes/ink — Ink renderer used by many TUIs, including early Claude Code.
+- https://en.wikipedia.org/wiki/ANSI_escape_code — Background on ANSI escape codes used for terminal rendering.
+- https://ratatui.rs/concepts/backends/alternate-screen/#:~:text=The%20alternate%20screen%20is%20a,content%20of%20the%20main%20screen. — Explanation of alternate‑screen mode.
+- https://mariozechner.at/posts/2025-11-30-pi-coding-agent/#toc_6 — Detailed discussion of the tradeoffs between rendering approaches.
+- https://github.com/badlogic/pi-mono/tree/main/packages/tui — Source for pi‑tui that the author ported.
+- https://github.com/steipete/TauTUI — The author’s Swift port of pi‑tui.
+- https://github.com/vadimdemedes/ink/pull/781 — Ink improvements for incremental rendering.
+- https://github.com/anthropics/claude-code/issues/769#issuecomment-3667315590 — Anthropic note on rewriting the renderer.
+- https://x.com/trq212/status/2001552877698056370 — Anthropic quote about prioritizing native terminal feel.
+- https://x.com/mitchellh/status/1978934533170041118 — Example about native scrolling expectations.
+- https://x.com/mitchellh/status/1993728538344906978 — Example about native terminal search expectations.
+- https://ampcode.com/news/look-ma-no-flicker — Amp’s switch to an alt‑mode renderer.
+- https://developers.googleblog.com/en/making-the-terminal-beautiful-one-pixel-at-a-time/ — Google blog announcement of Gemini’s alt‑mode TUI.
+- https://github.com/google-gemini/gemini-cli/discussions/13633 — Thread about rolling back the new Gemini TUI.
+- https://github.com/google-gemini/gemini-cli/discussions/13067 — Thread noting the CTRL‑S selection mode in Gemini.
+- https://github.com/sst/opentui — OpenCode’s opentui renderer repo.
+- https://github.com/sst/opencode/issues/4043#issuecomment-3519627447 — OpenCode issue: incompatible with macOS Terminal below macOS 26.
+- https://github.com/sst/opencode/issues/4320 — OpenCode issue: GNOME Terminal incompatibility.
+- https://github.com/openai/codex/blob/main/codex-rs/tui2/docs/tui_viewport_and_history.md — OpenAI’s alt‑mode direction for Codex UI.
+- https://shittycodingagent.ai/ — Mario Zechner’s pi agent (highlighted as gold standard).
+
+### Just Talk To It - the no-bs Way of Agentic Engineering (2025-10-14)
+
+**Summary:** A long, candid field guide to running AI coding agents at scale: why he uses codex, how he structures work, why he rejects some fashionable workflows (subagents, MCPs, plan modes), and a catalog of practical tactics and tool opinions.
+
+- He’s been quiet because he’s deep in a new project; agentic engineering now writes ~100% of his code.
+- He criticizes people who over‑complicate workflows instead of getting work done.
+- The post is inspired by a Claude Code Anonymous meetup and a year‑since‑last‑workflow reflection.
+- Basic ideas still apply; he won’t repeat context‑management fundamentals.
+- He points readers to his Optimal AI Workflow post for a primer.
+- He works solo on a ~300k LOC TypeScript/React app plus a Chrome extension, CLI, Tauri client, and Expo mobile app.
+- Hosting is on Vercel; PRs deploy in ~2 minutes; other apps aren’t automated.
+- He switched fully to the codex CLI as daily driver.
+- He runs 3–8 agents in parallel in a 3x3 grid, mostly in the same folder.
+- He tried worktrees and PRs but reverted to the same‑folder approach because it’s fastest.
+- Agents create atomic commits; he tuned his agent file to keep commit history clean.
+- Claude can do hooks but codex doesn’t; models are smart enough that hooks won’t stop them if they’re determined.
+- He used to be mocked as a slop‑generator; parallel agents are now becoming mainstream.
+- He uses gpt‑5‑codex on “mid” settings as a speed/smarts compromise.
+- He doesn’t overthink model settings; “ultrathink” isn’t worth it.
+- He frames changes by “blast radius” (time + files affected).
+- Large blasts make isolated commits and recovery harder.
+- If a task runs long, he checks status and either helps, aborts, or continues.
+- He uses “give me a few options” to gauge impact when unsure.
+- He avoids worktrees because one dev server is faster and he can test multiple changes at once.
+- Multiple dev servers are annoying; Twitter OAuth limits also constrain domains.
+- He used to love Claude Code but now dislikes its tone and overconfident messaging.
+- Codex is “introverted,” reads more files, and delivers better results for his prompts.
+- His timeline generally agrees that codex is the best path forward.
+- Codex has ~230k usable context versus Claude’s ~156k (despite 1M Sonnet variants).
+- Codex uses tokens more efficiently; context fills slower than in Claude Code.
+- Codex has message queuing; Claude had it but changed it to “steer” messages.
+- Codex’s queuing is better: you can send and it executes in order.
+- OpenAI rewrote codex in Rust, making it fast with low memory usage.
+- Claude Code can freeze and bloat memory; codex feels lightweight.
+- Codex’s tone is healthier; he rarely gets angry with it.
+- He prefers codex even if it were worse, due to the tone.
+- Codex avoids scattering random markdown files; he links a pair of “IYKYK” tweets.
+- The harness market is thin; direct subscriptions are the best deal.
+- He pays ~1k/month for 4 OpenAI + 1 Anthropic subs with “unlimited” usage.
+- API pricing would be ~10x higher, even if his estimate is imprecise.
+- He likes tools like amp or Factory but doubts long‑term survival.
+- These tools converge on similar ideas with the same model providers.
+- Temporary edges (todo lists, steering, DX) won’t beat the big AI companies.
+- Amp moved away from GPT‑5 and calls it an “oracle,” but he still uses codex.
+- He distrusts benchmarks due to skewed usage numbers; codex performs better for him.
+- He credits amp for good session sharing.
+- Factory’s marketing is cringe but he hears good things; no image support yet.
+- Factory also has signature flicker issues.
+- Cursor’s tab completion is great for people who still type code.
+- He uses VS Code; he likes Cursor’s browser automation and plan mode.
+- He tried GPT‑5‑Pro in Cursor but old bugs persist; it stays in his dock.
+- Auggie faded quickly; most tools just wrap GPT‑5/Sonnet.
+- RAG can help Sonnet, but GPT‑5 searches so well he sees no need for vector indices.
+- Promising alternatives are opencode and crush, especially with open models.
+- You can use OpenAI/Anthropic subs via hacks, but legality is unclear and it’s questionable.
+- He watches China’s open models; GLM 4.6 and Kimi K2.1 are strong but not daily‑driver quality.
+- Benchmarks are incomplete; agentic engineering jumped from “crap” to “good” with Sonnet 4.0, then to “amazing” with gpt‑5‑codex.
+- Strategy matters: codex reads more files and pushes back on bad requests.
+- Claude/others are eager and try something; plan mode and structure docs mitigate that.
+- He rarely uses plan files now; codex doesn’t need plan mode to wait for approval.
+- Claude Code plugins disappoint him; he sees them as patching model inefficiencies.
+- He still values task‑specific docs, but sees plugins as off‑track.
+- Subagents evolved from “subtasks” but the use case is the same: parallelization and context reduction.
+- He prefers separate terminal windows for research to control what context is passed.
+- He dislikes Anthropic’s recommended “AI Engineer” subagent; he calls it slop.
+- The example agent mixes GPT‑4o/o1 and offers little concrete value.
+- Telling a model “you are an AI engineer” doesn’t help; docs/examples/do‑don’t do.
+- He’d rather have the agent Google best practices than use the recommended subagent.
+- He calls this kind of slop “context poison.”
+- When he used Claude, he dictated long prompts; with codex, prompts got much shorter.
+- He often uses 1–2 sentences plus an image; codex reads the codebase and “gets it.”
+- He sometimes returns to typing because less context is needed.
+- Images are a powerful context tool; the model can find the UI element shown.
+- At least half his prompts include screenshots; he rarely annotates them.
+- A screenshot takes seconds to drag into the terminal.
+- Wispr Flow’s semantic correction is his favorite voice tool.
+- He experimented with web agents: Devin, Cursor, and Codex; Jules was annoying and Gemini 2.5 isn’t good.
+- He expects Gemini 3 Pro to improve things.
+- Codex web is the only web agent that stuck.
+- Codex web setup is annoying and currently buggy (terminal doesn’t load correctly).
+- He made it work using an older environment, with slower warm‑up times.
+- He uses codex web as a short‑term issue tracker via iOS one‑liners.
+- He avoids doing more on the phone to reduce addiction/overwork.
+- He notes he spent two months building a tool to code on the phone anyway.
+- Codex web didn’t count against usage limits before, but those days are ending.
+- He lists Conductor, Terragon, Sculptor, and many other tools; none stuck.
+- He says most tools are VC‑funded wrappers around Anthropic’s SDK and worktrees.
+- They hide the terminal and don’t show everything the model sees.
+- There’s no moat; codex web covers his minimal phone use case.
+- Codex lacks background tasks; Claude has them.
+- Codex can get stuck on endless CLI tasks (dev server/tests).
+- He reverted to Claude because of this, but now uses tmux instead.
+- tmux runs CLIs in persistent background sessions; models understand it well.
+- He doesn’t need special agent docs for tmux; “run via tmux” is enough.
+- He thinks most MCPs are marketing checkboxes and should be CLIs instead.
+- He says this despite writing 5 MCPs himself.
+- CLIs are discoverable via help output, which trains the model quickly.
+- MCPs are a constant context tax; GitHub’s MCP once cost ~50k tokens, now ~23k.
+- The gh CLI has similar features with zero context cost.
+- He open‑sourced some CLIs: bslog and inngest.
+- He uses chrome‑devtools‑mcp to close the loop for web debugging.
+- It replaced Playwright for him in that context.
+- He designed his website so agents can create API keys and query endpoints via curl for speed and token efficiency.
+- He still doesn’t need MCPs daily.
+- He spends ~20% of his time on refactoring, done by agents.
+- Refactor work includes jscpd for duplication, knip for dead code, eslint react‑compiler/deprecation plugins, consolidating routes, docs upkeep, splitting large files, adding tests/comments, updating deps, tool upgrades, restructuring, slow‑test rewrites, modern React pattern updates, and refactoring away unnecessary useEffect.
+- These maintenance phases repay technical debt and improve productivity.
+- He used to do spec‑driven development; now he sees that as the old way.
+- He prefers discussions with codex, pasting websites and ideas, then building together.
+- For tricky features, he has codex draft a spec, then gets GPT‑5‑Pro review via chatgpt.com.
+- He pastes the useful parts back into the main context to update files.
+- He estimates context needs per task; codex’s context window is sufficient.
+- Some people always start new contexts; he thinks GPT‑5 makes that unnecessary and wastes time.
+- UI work is more fun: start with a small request and iterate live in the browser.
+- He queues changes, explores the UI, and shapes the outcome through iterations.
+- Sometimes codex creates interesting ideas he wouldn’t have thought of.
+- He works on the main feature while parallel agents handle tangential tasks.
+- Example: while writing, he’s building a Twitter data importer and reshaping a GraphQL importer in a separate folder.
+- The main repo is being refactored so he can focus on the article.
+- He uses very few slash commands and rarely uses them.
+- He has /commit, /automerge, /massageprs, /review.
+- He usually just types “commit” unless the repo is extremely dirty.
+- He advises queueing “continue” messages for long runs.
+- If codex finishes, it ignores extra messages.
+- He recommends writing tests after each feature/fix using the same context.
+- That often uncovers bugs and produces better tests.
+- For UI‑only tweaks, tests may not make sense.
+- He advises asking the model to preserve intent and add comments in tricky areas.
+- Trigger words like “take your time” and “comprehensive” improve results.
+- He keeps an Agents.md symlinked to Claude.md due to Anthropic’s lack of standardization.
+- GPT‑5 prefers different prompting than Claude; he links the GPT‑5 prompting guide.
+- Claude responds to shouting‑caps threats; GPT‑5 doesn’t.
+- He suggests using normal human language instead.
+- This means shared instruction files aren’t optimal across models.
+- His Agent file is ~800 lines, mostly generated/maintained by codex.
+- It’s “organizational scar tissue” but works well; GPT honors it more than Claude.
+- The file includes product info, naming/API patterns, React Compiler notes, and other bleeding‑edge specifics.
+- He expects to reduce guidance as models improve.
+- He removed Tailwind 4 guidance once models caught up.
+- It also includes React pattern preferences, DB migration management, testing, and ast‑grep rules.
+- He suggests setting up ast‑grep as a git hook if you don’t use it.
+- He started using a text‑based design system; verdict still out.
+- GPT‑5‑Codex is not perfect: it can panic and revert after long refactors.
+- It sometimes forgets it can run bash commands.
+- Sometimes it replies in Russian or Korean.
+- Sometimes raw thinking leaks into bash.
+- These flaws are rare; overall it’s far better than alternatives.
+- His biggest codex annoyance: it “loses” lines when scrolling quickly.
+- He hopes OpenAI fixes this; it slows him down.
+- He concludes: ignore RAG, subagents, and Agents 2.0; just talk to the model.
+- Managing agents is like managing engineers; senior‑level skills apply.
+- Writing good software is still hard; AI raises the bar, it doesn’t remove design/architecture thinking.
+- PS: This post is hand‑written; he loves AI but values old‑fashioned writing.
+- He credits Thorsten Ball for the header graphic.
+
+#### Links (external, unique)
+
+- https://x.com/christianklotz/status/1977866496001867925 — Meetup inspiration from Claude Code Anonymous in London.
+- https://x.com/pmddomingos/status/1976399060052607469 — “AI year” reflection link.
+- https://x.com/steipete/status/1977771686176174352 — Example of running multiple agents in the same folder.
+- https://x.com/steipete/status/1977498385172050258 — Atomic commits practice.
+- https://gist.github.com/steipete/d3b9db3fa8eb1d1a692b7656217d8655 — The author’s agent file.
+- https://x.com/steipete/status/1977119589860601950 — Claim that hooks won’t stop determined models.
+- https://x.com/weberwongwong/status/1975749583079694398 — “Slop‑generator” ridicule reference.
+- https://x.com/steipete/status/1976353767705457005 — Parallel agents becoming mainstream.
+- https://x.com/steipete/status/1977072732136521836 — Codex being a fan of Claude Code.
+- https://x.com/vtahowe/status/1976709116425871772 — Example of Claude’s “absolutely right” tone.
+- https://x.com/s_streichsbier/status/1974334735829905648 — Codex‑positive timeline consensus.
+- https://x.com/kimmonismus/status/1976404152541680038 — Codex‑positive timeline consensus.
+- https://x.com/steipete/status/1978099041884897517 — Codex message queuing.
+- https://x.com/steipete/status/1975297275242160395 — Codex tone and mental‑health impact.
+- https://x.com/steipete/status/1977466373363437914 — No random markdown files (IYKYK).
+- https://x.com/deepfates/status/1975604489634914326 — Another IYKYK reference.
+- https://ampcode.com/news/gpt-5-oracle — Amp’s “oracle” shift away from GPT‑5.
+- https://x.com/btibor91/status/1976299256383250780 — Benchmark skepticism link.
+- https://x.com/badlogicgames/status/1977103325192667323 — Signature flicker mention for Factory.
+- https://x.com/steipete/status/1976226900516209035 — Cursor bugs that persist.
+- https://x.com/steipete/status/1977286197375647870 — “Clever hax” for using subs elsewhere.
+- https://x.com/imfeat7/status/1977246145278583258 — Open‑model daily‑driver caution.
+- https://x.com/thsottiaux/status/1975565380388299112 — Codex pushes back on bad requests.
+- https://www.anthropic.com/news/claude-code-plugins — Anthropic’s Claude Code plugins announcement.
+- https://github.com/wshobson/agents/blob/main/plugins/llm-application-dev/agents/ai-engineer.md — The criticized “AI Engineer” subagent template.
+- https://x.com/IanIsSoAwesome/status/1976662563699245358 — “Context poison” reference.
+- https://x.com/steipete/status/1978104202820812905 — Voice dictation note (“I speak”).
+- https://x.com/steipete/status/1977175451408990379 — Example of using images in prompts.
+- https://wisprflow.ai/ — Wispr Flow voice dictation tool.
+- https://x.com/cannn064/status/1973415142302830878 — Expectation for Gemini 3 Pro.
+- https://x.com/steipete/status/1974798735055192524 — Codex web terminal loading bug.
+- https://steipete.me/posts/2025/vibetunnel-first-anniversary — Phone‑coding tool he built (site link).
+- https://x.com/steipete/status/1976292221390553236 — Codex web usage limits changing.
+- https://conductor.build/ — Conductor tool example.
+- https://www.terragonlabs.com/ — Terragon tool example.
+- https://x.com/steipete/status/1973132707707113691 — Sculptor tool example.
+- https://x.com/steipete/status/1977745596380279006 — tmux usage tip.
+- https://github.com/steipete/claude-code-mcp — The author’s MCP tools.
+- https://github.com/steipete/bslog — Open‑sourced CLI tool.
+- https://github.com/steipete/inngest — Open‑sourced CLI tool.
+- https://developer.chrome.com/blog/chrome-devtools-mcp — Chrome DevTools MCP reference.
+- https://x.com/steipete/status/1977762275302789197 — Using chrome‑devtools‑mcp to close the loop.
+- https://x.com/steipete/status/1976985959242907656 — Refactoring time estimate.
+- https://knip.dev/ — Dead‑code analysis tool.
+- https://x.com/steipete/status/1977472427354632326 — Tool upgrades note.
+- https://react.dev/learn/you-might-not-need-an-effect — Example of modern React patterns.
+- https://steipete.me/posts/2025/the-future-of-vibe-coding — Spec‑driven development reference.
+- https://x.com/steipete/status/1978111714685063640 — Codex ignores extra messages after finishing.
+- https://cookbook.openai.com/examples/gpt-5/gpt-5_prompting_guide — GPT‑5 prompting guide.
+- https://x.com/Altimor/status/1975752110164578576 — Claude’s response to screaming‑caps prompts.
+- https://x.com/steipete/status/1963411717192651154 — ast‑grep rules reference.
+- https://x.com/steipete/status/1973838406099874130 — Text‑based design system experiment.
+- https://x.com/steipete/status/1973834765737603103 — Codex panic/revert anecdote.
+- https://x.com/steipete/status/1977695411436392588 — Codex forgetting bash commands.
+- https://x.com/steipete/status/1976207732534300940 — Codex replying in Russian/Korean.
+- https://x.com/steipete/status/1974108054984798729 — Raw thinking leaking into bash.
+- https://x.com/steipete/status/1977660298367766766 — “Agents 2.0” charade reference.
+- https://simonwillison.net/2025/Oct/7/vibe-engineering/ — Simon Willison article on vibe engineering.
+- https://x.com/lukasz_app/status/1974424549635826120 — Managing engineers analogy.
+- https://x.com/svpino/status/1977396812999688371 — “Writing good software is still hard” reference.
+- https://x.com/Alphafox78/status/1975679120898965947 — “Old‑fashioned” writing note.
+- https://x.com/rohanpaul_ai/status/1977005259567595959 — Closing emoji/sign‑off reference.
+- https://x.com/thorstenball/status/1976224756669309195 — Header graphic credit.
+
+### Claude Code Anonymous (2025-09-09)
+
+**Summary:** An announcement of the Claude Code Anonymous meetup format, why it exists, how it’s structured, and how to start a local chapter.
+
+- He reconnected with Orta Therox; both felt Claude Code changed how they build and they couldn’t stop thinking about it.
+- From that conversation, they created a new meetup format: Claude Code Anonymous.
+- Demand exceeded London capacity, so he encouraged local chapters.
+- There are now chapters in London, Vienna, Berlin, Cologne, San Francisco, Delft, with more coming.
+- The first London meetup was successful; another is scheduled for October 13.
+- Not everyone gets hooked equally by agentic tooling.
+- “Full‑breadth developers” (technical + product) adopt fastest; he jokes they’re the “black eye club” due to sleep loss.
+- Claude Code Anonymous is a playful name for this phenomenon.
+- The meetup is a safe space to discuss AI/LLM tooling without public pressure.
+- Talks are not recorded and there is no livestream.
+- The recipe: gather like‑minded people, provide space, drinks, pizza, and focus on socializing.
+- Meetups use lightning talks (~5 minutes) with prompts like “I was X when Claude Code Y.”
+- Intro + talks are capped at ~1 hour so there’s time for 2–3 hours of socializing.
+- He dislikes meetups where talks run long and people leave immediately after.
+- The 5‑minute limit increases participation and serves as a stepping stone for longer talks.
+- The name isn’t exclusive to Claude; any agentic tool is welcome.
+- They picked “Claude Code” to attract builders rather than marketing/HR.
+- “Agentic engineering” would attract a different audience.
+- You can talk about any tool: codex, opencode, Cursor, etc.
+- He views Claude Code as the defining agent that sparked the revolution.
+- He treats the name like a proprietary eponym (Jacuzzi/Tupperware).
+- If you want neutrality, call it “Agents Anonymous.”
+- To start a meetup: find a space, organize drinks, spread the word.
+- They use Luma for event management and ask applicants questions (what they’re building, social profile).
+- Interest exceeds space, so they review applicants to ensure builders attend, not recruiters/marketers.
+- Lightning talks have the same rule: show what you learned, not what you sell.
+- Their code of conduct is CocoaPods’ “Don’t be a Jerk.”
+- He invites readers to start a chapter and offers help with outreach.
+- Contact options: email or Twitter DM.
+
+#### Links (external, unique)
+
+- https://orta.io/ — Orta Therox’s site, mentioned as the friend he reconnected with.
+- https://www.highagency.com/ — “High‑Agency‑Style” encouragement to start local chapters.
+- https://luma.com/u5rompg9 — London chapter page.
+- https://luma.com/q50cmcb2 — Vienna chapter page.
+- https://luma.com/5lizqnpz — Berlin chapter page.
+- https://luma.com/j1fr97j3 — Cologne chapter page.
+- https://luma.com/i37ahi52 — San Francisco chapter page.
+- https://luma.com/h5h322jz — Delft chapter page.
+- https://luma.com/9qets0h0 — October 13 London meetup page.
+- https://justin.searls.co/posts/full-breadth-developers/ — “Full‑breadth developers” definition.
+- https://luma.com/ — Luma platform used for events.
+- https://cocoapods.org/legal — CocoaPods code of conduct (“Don’t be a Jerk”).
+- mailto:steipete@gmail.com — Email contact for outreach.
+- https://x.com/steipete — Twitter DM contact.
