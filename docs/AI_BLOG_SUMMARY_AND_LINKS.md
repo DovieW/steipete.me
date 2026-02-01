@@ -1,12 +1,10 @@
 # AI Blog Summary and Links
 
-## Summary (in progress)
-
-This summary will be finalized after all AI-related posts are processed. For now, it will be refined incrementally as each post is added.
-
 ## Detailed Points (by post)
 
 ### Shipping at Inference-Speed (2025-12-28)
+
+**Summary:** A detailed update on the author’s current AI‑driven workflow: why GPT‑5.2/codex changed the pace of shipping, how he structures projects and prompts, why he avoids certain process overhead, and where the remaining hard problems still are.
 
 - "Vibe coding" has improved drastically since ~May; what used to be occasional working prompts is now the baseline expectation, enabling unreal shipping speed.
 - He’s burned a lot of tokens and is providing an update on the state of his workflow and tools.
@@ -89,39 +87,39 @@ This summary will be finalized after all AI-related posts are processed. For now
 - He’s not afraid of compaction since the new `/compact` endpoint works well; it slows tasks but can act like a review pass that finds bugs.
 - He ends by saying he plans to write more, has a backlog of ideas, and is having a lot of fun building.
 
-## Links (external, unique)
+#### Links (external, unique)
 
-- https://x.com/thsottiaux/status/2004789121492156583 — Tweet referenced as evidence of heavy token usage. (Mentioned in: Shipping at Inference-Speed)
-- https://x.com/steipete/status/1997380251081490717 — Tweet about needing to write code to feel architecture, which the author disputes. (Mentioned in: Shipping at Inference-Speed)
-- https://github.com/steipete/ — “Building like a factory” reference to the author’s GitHub. (Mentioned in: Shipping at Inference-Speed)
-- https://github.com/steipete/clawdis/tree/main/apps/ios — Example that he doesn’t use Xcode project files. (Mentioned in: Shipping at Inference-Speed)
-- https://x.com/steipete/status/1997412175615246603 — Tweet about starting a conversation with the model instead of plan mode. (Mentioned in: Shipping at Inference-Speed)
-- https://x.com/steipete/status/2001228002953158928 — Tweet referenced as a commonly misunderstood plan‑mode statement. (Mentioned in: Shipping at Inference-Speed)
-- https://lucumr.pocoo.org/2025/12/17/what-is-plan-mode/ — Blog post used to argue plan mode isn’t magic. (Mentioned in: Shipping at Inference-Speed)
-- https://github.com/steipete/oracle — Repo for the “oracle” CLI tool he built for GPT‑5 Pro. (Mentioned in: Shipping at Inference-Speed)
-- https://github.com/steipete/agent-scripts/blob/main/AGENTS.MD — Global instructions file that documents the oracle workflow. (Mentioned in: Shipping at Inference-Speed)
-- https://vibetunnel.sh/ — VibeTunnel project site referenced in a model capability example. (Mentioned in: Shipping at Inference-Speed)
-- https://github.com/amantus-ai/vibetunnel/compare/6a1693b482fa4ef0ac021700a9ec05489a3a108f...a81b29ee3de6a2c85fd9fa41423d968dcc000515 — Comparison link showing the Zig conversion of VibeTunnel’s forwarding system. (Mentioned in: Shipping at Inference-Speed)
-- https://clawdis.ai/ — Clawdis project site (AI assistant with broad device access). (Mentioned in: Shipping at Inference-Speed)
-- https://x.com/steipete/status/2005213014778409280/photo/1 — Tweet with a photo showing “all my computers.” (Mentioned in: Shipping at Inference-Speed)
-- https://imsg.to/ — Service for iMessage automation used by Clawdis. (Mentioned in: Shipping at Inference-Speed)
-- https://github.com/steipete/gogcli — CLI for email access used by Clawdis. (Mentioned in: Shipping at Inference-Speed)
-- https://www.openhue.io/cli/openhue-cli — Home automation CLI referenced as part of Clawdis’s integrations. (Mentioned in: Shipping at Inference-Speed)
-- https://camsnap.ai/ — Camera integration referenced for Clawdis. (Mentioned in: Shipping at Inference-Speed)
-- https://sonoscli.sh/ — Music control CLI referenced for Clawdis. (Mentioned in: Shipping at Inference-Speed)
-- https://eightctl.sh/ — Bed temperature control CLI referenced for Clawdis. (Mentioned in: Shipping at Inference-Speed)
-- https://github.com/steipete/sag — Repo for Clawdis’s voice/assistant component. (Mentioned in: Shipping at Inference-Speed)
-- https://github.com/steipete/bird — CLI for tweeting used by Clawdis. (Mentioned in: Shipping at Inference-Speed)
-- https://clawd.bot — Clawdis bot presence. (Mentioned in: Shipping at Inference-Speed)
-- https://www.peekaboo.boo/ — Peekaboo site referenced for screen vision/control. (Mentioned in: Shipping at Inference-Speed)
-- https://soul.md/ — Link used to describe Opus’s “special” quality. (Mentioned in: Shipping at Inference-Speed)
-- https://x.com/steipete/status/2005083410482733427/photo/1 — Tweet showing multiple projects running in parallel. (Mentioned in: Shipping at Inference-Speed)
-- https://ordercli.sh/ — Example CLI tool for checking food delivery, used to illustrate “boring” software. (Mentioned in: Shipping at Inference-Speed)
-- https://github.com/steipete/agent-scripts/blob/main/scripts/docs-list.ts — Script referenced for forcing the model to read docs. (Mentioned in: Shipping at Inference-Speed)
-- https://x.com/steipete/status/1974108054984798729 — Tweet showing an internal thinking leak from codex. (Mentioned in: Shipping at Inference-Speed)
-- https://x.com/steipete/status/2005243588414931368 — Tweet about codex’s wording/voice. (Mentioned in: Shipping at Inference-Speed)
-- https://x.com/steipete/status/2005320848543298009 — Tweet about the YouTube‑summary extension idea. (Mentioned in: Shipping at Inference-Speed)
-- https://github.com/steipete/summarize/releases/latest — Release link for the summarize CLI. (Mentioned in: Shipping at Inference-Speed)
-- https://codexbar.app/ — Project link used in the closing “too much fun” note. (Mentioned in: Shipping at Inference-Speed)
-- https://x.com/steipete/status/2005393881395835045 — Tweet linked as another “building things” reference. (Mentioned in: Shipping at Inference-Speed)
-- https://x.com/steipete — Twitter profile link in the closing call to follow. (Mentioned in: Shipping at Inference-Speed)
+- https://x.com/thsottiaux/status/2004789121492156583 — Tweet referenced as evidence of heavy token usage.
+- https://x.com/steipete/status/1997380251081490717 — Tweet about needing to write code to feel architecture, which the author disputes.
+- https://github.com/steipete/ — “Building like a factory” reference to the author’s GitHub.
+- https://github.com/steipete/clawdis/tree/main/apps/ios — Example that he doesn’t use Xcode project files.
+- https://x.com/steipete/status/1997412175615246603 — Tweet about starting a conversation with the model instead of plan mode.
+- https://x.com/steipete/status/2001228002953158928 — Tweet referenced as a commonly misunderstood plan‑mode statement.
+- https://lucumr.pocoo.org/2025/12/17/what-is-plan-mode/ — Blog post used to argue plan mode isn’t magic.
+- https://github.com/steipete/oracle — Repo for the “oracle” CLI tool he built for GPT‑5 Pro.
+- https://github.com/steipete/agent-scripts/blob/main/AGENTS.MD — Global instructions file that documents the oracle workflow.
+- https://vibetunnel.sh/ — VibeTunnel project site referenced in a model capability example.
+- https://github.com/amantus-ai/vibetunnel/compare/6a1693b482fa4ef0ac021700a9ec05489a3a108f...a81b29ee3de6a2c85fd9fa41423d968dcc000515 — Comparison link showing the Zig conversion of VibeTunnel’s forwarding system.
+- https://clawdis.ai/ — Clawdis project site (AI assistant with broad device access).
+- https://x.com/steipete/status/2005213014778409280/photo/1 — Tweet with a photo showing “all my computers.”
+- https://imsg.to/ — Service for iMessage automation used by Clawdis.
+- https://github.com/steipete/gogcli — CLI for email access used by Clawdis.
+- https://www.openhue.io/cli/openhue-cli — Home automation CLI referenced as part of Clawdis’s integrations.
+- https://camsnap.ai/ — Camera integration referenced for Clawdis.
+- https://sonoscli.sh/ — Music control CLI referenced for Clawdis.
+- https://eightctl.sh/ — Bed temperature control CLI referenced for Clawdis.
+- https://github.com/steipete/sag — Repo for Clawdis’s voice/assistant component.
+- https://github.com/steipete/bird — CLI for tweeting used by Clawdis.
+- https://clawd.bot — Clawdis bot presence.
+- https://www.peekaboo.boo/ — Peekaboo site referenced for screen vision/control.
+- https://soul.md/ — Link used to describe Opus’s “special” quality.
+- https://x.com/steipete/status/2005083410482733427/photo/1 — Tweet showing multiple projects running in parallel.
+- https://ordercli.sh/ — Example CLI tool for checking food delivery, used to illustrate “boring” software.
+- https://github.com/steipete/agent-scripts/blob/main/scripts/docs-list.ts — Script referenced for forcing the model to read docs.
+- https://x.com/steipete/status/1974108054984798729 — Tweet showing an internal thinking leak from codex.
+- https://x.com/steipete/status/2005243588414931368 — Tweet about codex’s wording/voice.
+- https://x.com/steipete/status/2005320848543298009 — Tweet about the YouTube‑summary extension idea.
+- https://github.com/steipete/summarize/releases/latest — Release link for the summarize CLI.
+- https://codexbar.app/ — Project link used in the closing “too much fun” note.
+- https://x.com/steipete/status/2005393881395835045 — Tweet linked as another “building things” reference.
+- https://x.com/steipete — Twitter profile link in the closing call to follow.
